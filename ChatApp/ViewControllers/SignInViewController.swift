@@ -15,6 +15,7 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
+    var activeTextField: UITextField?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,10 @@ class SignInViewController: UIViewController {
         createAccountTextView.attributedText = attributeString
         createAccountTextView.linkTextAttributes = [.font: Font.linkLabel,.foregroundColor: UIColor.secondary]
         createAccountTextView.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        let backGroundTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeybord))
+        view.addGestureRecognizer(backGroundTap)
         
         
     }
@@ -33,12 +38,50 @@ class SignInViewController: UIViewController {
         super.viewDidLayoutSubviews()
         containerView.layer.cornerRadius = 20
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        registerKeybordNonification()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
+    func registerKeybordNonification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func dismissKeybord() {
+        view.endEditing(true)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let keybordFrame = notification.userInfo else {
+            return
+        }
+        let keybordHeight = keybordFrame[UIWindow.keyboardFrameEndUserInfoKey] as! CGRect
+        let keybordOffset: CGFloat = keybordHeight.height
+        let totalOffset: CGFloat = keybordOffset + (activeTextField?.frame.height ?? 0)
+        scrollView.contentInset.bottom = totalOffset
+        
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        
+        scrollView.contentInset.bottom = 0
+
+    }
 
     @IBAction func signinButtonTapped(_ sender: Any) {
         
     }
 
 }
+
+
 
 extension SignInViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
@@ -47,5 +90,14 @@ extension SignInViewController: UITextViewDelegate {
         }
         
         return false
+    }
+}
+
+extension SignInViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeTextField = nil
     }
 }

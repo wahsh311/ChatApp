@@ -16,6 +16,7 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
+    var activeTextField: UITextField?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,12 +28,44 @@ class CreateAccountViewController: UIViewController {
         signinAccountTextView.linkTextAttributes = [.font: Font.linkLabel,.foregroundColor: UIColor.secondary]
         signinAccountTextView.isEditable = false
         signinAccountTextView.delegate = self
+        usernameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        registerKeybordNotifications()
+        let backgorindTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(backgorindTap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func registerKeybordNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        
+        guard let keybordFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keybordHeight = view.convert(keybordFrame.cgRectValue, from: nil).size.height
+        let totalOffset = activeTextField == nil ? keybordHeight : keybordHeight + activeTextField!.frame.height
+        scrollView.contentInset.bottom = totalOffset
+        
+    }
+    @objc func keyboardWillHide(notification: Notification) {
+        
+        scrollView.contentInset.bottom = 0
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         containerView.layer.cornerRadius = 20
     }
+    
+    
+    
     
     @IBAction func createAccountButtonTapped(_ sender: Any) {
     }
@@ -46,5 +79,15 @@ extension CreateAccountViewController: UITextViewDelegate {
             performSegue(withIdentifier: "SignInSegue", sender: nil)
         }
         return false
+    }
+}
+
+extension CreateAccountViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeTextField = nil
     }
 }
