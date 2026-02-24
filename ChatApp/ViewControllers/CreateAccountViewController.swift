@@ -21,6 +21,12 @@ class CreateAccountViewController: UIViewController {
         super.viewDidLoad()
         containerView.clipsToBounds = true
         containerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        let attributeString = NSMutableAttributedString(string: "Already have an account? Sign in here.", attributes: [.font: Font.caption])
+        attributeString.addAttribute(.link, value: "chatapp://signin", range: (attributeString.string as NSString).range(of: "Sign in here."))
+        signinAccountTextView.attributedText = attributeString
+        signinAccountTextView.linkTextAttributes = [.font: Font.linkLabel,.foregroundColor: UIColor.secondary]
+        signinAccountTextView.isEditable = false
+        signinAccountTextView.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -32,4 +38,13 @@ class CreateAccountViewController: UIViewController {
     }
     
 
+}
+
+extension CreateAccountViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        if URL.scheme == "chatapp" {
+            performSegue(withIdentifier: "SignInSegue", sender: nil)
+        }
+        return false
+    }
 }

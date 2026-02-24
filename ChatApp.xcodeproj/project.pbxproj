@@ -11,6 +11,7 @@
 		30912C4D2F4B1171000BCA0A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 30912C4C2F4B1171000BCA0A /* FirebaseDatabase */; };
 		30912C4F2F4B1171000BCA0A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 30912C4E2F4B1171000BCA0A /* FirebaseMessaging */; };
 		30912C512F4B1171000BCA0A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 30912C502F4B1171000BCA0A /* FirebaseStorage */; };
+		30912C532F4DCF7E000BCA0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30912C522F4DCF7E000BCA0A /* GoogleService-Info.plist */; };
 		E12D57D72A6B3FD600D556EF /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D57D62A6B3FD600D556EF /* PrimaryButton.swift */; };
 		E12D58062A6CAE8F00D556EF /* Extension+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12D58052A6CAE8F00D556EF /* Extension+UIColor.swift */; };
 		E13089A82A69EDB600C1889D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13089A72A69EDB600C1889D /* AppDelegate.swift */; };
@@ -27,7 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		30912C482F4B10B7000BCA0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		30912C522F4DCF7E000BCA0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E12D57D62A6B3FD600D556EF /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		E12D58052A6CAE8F00D556EF /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		E13089A42A69EDB600C1889D /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,7 +88,7 @@
 				E13089B02A69EDBB00C1889D /* Assets.xcassets */,
 				E13089B22A69EDBB00C1889D /* LaunchScreen.storyboard */,
 				E13089B52A69EDBB00C1889D /* Info.plist */,
-				30912C482F4B10B7000BCA0A /* GoogleService-Info.plist */,
+				30912C522F4DCF7E000BCA0A /* GoogleService-Info.plist */,
 			);
 			path = ChatApp;
 			sourceTree = "<group>";
@@ -188,6 +189,7 @@
 				E13089B42A69EDBB00C1889D /* LaunchScreen.storyboard in Resources */,
 				E13089B12A69EDBB00C1889D /* Assets.xcassets in Resources */,
 				E13089AF2A69EDB600C1889D /* Main.storyboard in Resources */,
+				30912C532F4DCF7E000BCA0A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +367,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wahsh.ChatApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wahsh.ChatApp-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -396,7 +398,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.wahsh.ChatApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wahsh.ChatApp-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
