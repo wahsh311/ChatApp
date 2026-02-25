@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import Firebase
 
 class CreateAccountViewController: UIViewController {
     
@@ -68,6 +70,50 @@ class CreateAccountViewController: UIViewController {
     
     
     @IBAction func createAccountButtonTapped(_ sender: Any) {
+        
+        guard let username = usernameTextField.text else {
+            presentAlert(title: "username Required", message: "please enter a username")
+
+            return
+            }
+        guard username.count > 1 && username.count <= 15 else {
+            presentAlert(title: "Username Unvalid", message: "please enter username between 1 and 15")
+            return
+        }
+        guard let email = emailTextField.text else {
+            presentAlert(title: "Email Required", message: "please enter a valid email")
+            return
+        
+        }
+        
+        guard let password = passwordTextField.text else {
+            presentAlert(title: "Password Required", message: "please enter a valid password")
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let result = result else {
+                self.presentAlert(title: "Create Acount Feild", message: "something went wrong try again")
+                return
+            }
+            let userId = result.user.uid
+            let userData = ["id": userId, "username": username]
+            Database.database().reference().child("users").child(userId).setValue(userData)
+        }
+        
+        let mainStorybord = UIStoryboard(name: "Main", bundle: nil)
+        let homeViewControoler = mainStorybord.instantiateViewController(identifier: "HomeViewController")
+        let navVC = UINavigationController(rootViewController: homeViewControoler)
+        if let windowSence = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowSence.windows.first {
+            window.rootViewController = navVC
+            
+            
+        }
+        
+        
     }
     
 
