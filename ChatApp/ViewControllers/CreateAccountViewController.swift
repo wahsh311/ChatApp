@@ -36,6 +36,13 @@ class CreateAccountViewController: UIViewController {
         registerKeybordNotifications()
         let backgorindTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(backgorindTap)
+
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+
     }
     
     @objc func dismissKeyboard() {
@@ -55,6 +62,7 @@ class CreateAccountViewController: UIViewController {
         scrollView.contentInset.bottom = totalOffset
         
     }
+
     @objc func keyboardWillHide(notification: Notification) {
         
         scrollView.contentInset.bottom = 0
@@ -91,27 +99,40 @@ class CreateAccountViewController: UIViewController {
             return
         }
         
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let result = result else {
-                self.presentAlert(title: "Create Acount Feild", message: "something went wrong try again")
+        Database.database().reference().child("usernames").child(username).observeSingleEvent(of: .value) { snapshot in
+            if snapshot.exists() {
+                self.presentAlert(title: "Username in use", message: "pleate try another username")
+                print(snapshot)
                 return
             }
-            let userId = result.user.uid
-            let userData = ["id": userId, "username": username]
-            Database.database().reference().child("users").child(userId).setValue(userData)
+            
+            Auth.auth().createUser(withEmail: email, password: password) { result, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                guard let result = result else {
+                    self.presentAlert(title: "Create Acount Feild", message: "something went wrong try again")
+                    return
+                }
+                let userId = result.user.uid
+                let userData = ["id": userId, "username": username]
+                Database.database().reference().child("usernames").child(username).setValue(userData)
+            }
+            
+            let mainStorybord = UIStoryboard(name: "Main", bundle: nil)
+            let homeViewControoler = mainStorybord.instantiateViewController(identifier: "HomeViewController")
+            let navVC = UINavigationController(rootViewController: homeViewControoler)
+            if let windowSence = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowSence.windows.first {
+                window.rootViewController = navVC
+                
+                
+            }
+            
         }
         
-        let mainStorybord = UIStoryboard(name: "Main", bundle: nil)
-        let homeViewControoler = mainStorybord.instantiateViewController(identifier: "HomeViewController")
-        let navVC = UINavigationController(rootViewController: homeViewControoler)
-        if let windowSence = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowSence.windows.first {
-            window.rootViewController = navVC
-            
-            
-        }
+        
+        
+        
         
         
     }

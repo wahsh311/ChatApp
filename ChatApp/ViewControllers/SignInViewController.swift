@@ -40,7 +40,14 @@ class SignInViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         registerKeybordNonification()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -58,16 +65,15 @@ class SignInViewController: UIViewController {
         view.endEditing(true)
     }
     
-    @objc func keyboardWillShow(notification: Notification) {
-        guard let keybordFrame = notification.userInfo else {
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
-        let keybordHeight = keybordFrame[UIWindow.keyboardFrameEndUserInfoKey] as! CGRect
-        let keybordOffset: CGFloat = keybordHeight.height
-        let totalOffset: CGFloat = keybordOffset + (activeTextField?.frame.height ?? 0)
+        let keyboardOffset = view.convert(keyboardFrame.cgRectValue, from: nil).size.height
+        let totalOffset = activeTextField == nil ? keyboardOffset : keyboardOffset + activeTextField!.frame.height
         scrollView.contentInset.bottom = totalOffset
-        
     }
+    
     
     @objc func keyboardWillHide(notification: Notification) {
         
