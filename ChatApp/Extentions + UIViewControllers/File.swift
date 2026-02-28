@@ -24,6 +24,7 @@ extension UIViewController {
     
     func removeLodingView() {
         if let lodingView = view.viewWithTag(2026) {
+            lodingView.removeFromSuperview()
             
         }
     }

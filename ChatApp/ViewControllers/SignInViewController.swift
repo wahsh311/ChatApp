@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SignInViewController: UIViewController {
     
@@ -31,6 +32,7 @@ class SignInViewController: UIViewController {
         let backGroundTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeybord))
         view.addGestureRecognizer(backGroundTap)
         
+     
         
     }
     
@@ -82,6 +84,48 @@ class SignInViewController: UIViewController {
     }
 
     @IBAction func signinButtonTapped(_ sender: Any) {
+        
+        guard let email = emailTextField.text else {
+            presentAlert(title: "Email Required", message: "please enter a valid email")
+            return
+        }
+        
+        guard let password = passwordTextField.text else {
+            presentAlert(title: "Password Required", message: "please enter a valid password")
+            return
+        }
+        
+        showLoadingview()
+        
+        Auth.auth().signIn(withEmail: email, password: password) { _, error in
+            if let error = error as? NSError{
+                var errorMessage = "something went wrong, please try again"
+                if let errorAuth = AuthErrorCode(rawValue: error.code){
+                    switch errorAuth {
+                    case .userNotFound:
+                        errorMessage = "email/password is incorrect"
+                    case .invalidEmail:
+                        errorMessage = "invalid email"
+                    default: break
+                        
+                    }
+                }
+                self.removeLodingView()
+                self.presentAlert(title: "Signin failed", message: errorMessage)
+                return
+            }
+
+            let mainStorybord = UIStoryboard(name: "Main", bundle: nil)
+            let homeVC = mainStorybord.instantiateViewController(identifier: "HomeViewController")
+            let navVC = UINavigationController(rootViewController: homeVC)
+            if let windowSence = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let window = windowSence.windows.first
+                window?.rootViewController = navVC
+                
+            }
+            
+        }
+        
         
     }
 

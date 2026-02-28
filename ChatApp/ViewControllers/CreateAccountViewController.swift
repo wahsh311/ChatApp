@@ -36,6 +36,7 @@ class CreateAccountViewController: UIViewController {
         registerKeybordNotifications()
         let backgorindTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(backgorindTap)
+        
 
     }
     
@@ -99,16 +100,45 @@ class CreateAccountViewController: UIViewController {
             return
         }
         
+        showLoadingview()
+        
         Database.database().reference().child("usernames").child(username).observeSingleEvent(of: .value) { snapshot in
             if snapshot.exists() {
                 self.presentAlert(title: "Username in use", message: "pleate try another username")
+                self.removeLodingView()
+
                 print(snapshot)
                 return
             }
             
+            
             Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                if let error = error {
-                    print(error.localizedDescription)
+                self.removeLodingView()
+                if let error = error as? NSError {
+                    var errorMessage = "something went wrong try again"
+                    print("RESULT:", result as Any)
+                        print("ERROR:", error as Any)
+                    
+                    if let authError = AuthErrorCode(rawValue: error.code) {
+                        print("Code:", AuthErrorCode(rawValue: error.code)?.localizedDescription ?? "saas")
+
+                        switch authError {
+                        case .emailAlreadyInUse:
+                            errorMessage = "email in use"
+                        case .invalidEmail:
+                            errorMessage = "invalid email"
+                        case .weakPassword:
+                            errorMessage = "weak password"
+                        default: break
+                           
+                            
+                            
+                            
+                        }
+                      
+                    }
+                    self.presentAlert(title: "Create account failed", message: errorMessage)
+                    return
                 }
                 guard let result = result else {
                     self.presentAlert(title: "Create Acount Feild", message: "something went wrong try again")
@@ -117,16 +147,22 @@ class CreateAccountViewController: UIViewController {
                 let userId = result.user.uid
                 let userData = ["id": userId, "username": username]
                 Database.database().reference().child("usernames").child(username).setValue(userData)
+                
+                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                changeRequest?.displayName = username
+                changeRequest?.commitChanges()
+                
+                let mainStorybord = UIStoryboard(name: "Main", bundle: nil)
+                let homeViewControoler = mainStorybord.instantiateViewController(identifier: "HomeViewController")
+                let navVC = UINavigationController(rootViewController: homeViewControoler)
+                if let windowSence = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowSence.windows.first {
+                    window.rootViewController = navVC
+                    
+                    
+                }
             }
             
-            let mainStorybord = UIStoryboard(name: "Main", bundle: nil)
-            let homeViewControoler = mainStorybord.instantiateViewController(identifier: "HomeViewController")
-            let navVC = UINavigationController(rootViewController: homeViewControoler)
-            if let windowSence = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowSence.windows.first {
-                window.rootViewController = navVC
-                
-                
-            }
+        
             
         }
         
