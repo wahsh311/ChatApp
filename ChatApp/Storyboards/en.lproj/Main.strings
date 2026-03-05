@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "NZd-z6-D0T"; */
+"NZd-z6-D0T.text" = "Name";
+
+/* Class = "UIButton"; configuration.title = "Logout"; ObjectID = "Qi0-3S-Lf6"; */
+"Qi0-3S-Lf6.configuration.title" = "Logout";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Qi0-3S-Lf6"; */
+"Qi0-3S-Lf6.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "@Username"; ObjectID = "W7K-oF-7G3"; */
+"W7K-oF-7G3.text" = "@Username";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "aw1-dI-lXv"; */
+"aw1-dI-lXv.title" = "Item";
