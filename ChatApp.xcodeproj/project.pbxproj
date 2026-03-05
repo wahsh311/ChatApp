@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3007C0712F595CFB00238AFC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3007C0702F595CFB00238AFC /* ProfileViewController.swift */; };
 		30912C4B2F4B1171000BCA0A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 30912C4A2F4B1171000BCA0A /* FirebaseAuth */; };
 		30912C4D2F4B1171000BCA0A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 30912C4C2F4B1171000BCA0A /* FirebaseDatabase */; };
 		30912C4F2F4B1171000BCA0A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 30912C4E2F4B1171000BCA0A /* FirebaseMessaging */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3007C0702F595CFB00238AFC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		30912C522F4DCF7E000BCA0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E12D58052A6CAE8F00D556EF /* Extension+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIColor.swift"; sourceTree = "<group>"; };
 		E13089A42A69EDB600C1889D /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +106,7 @@
 				E13089C52A69FBF400C1889D /* SignInViewController.swift */,
 				E13089C72A69FC1700C1889D /* CreateAccountViewController.swift */,
 				E13089C92A69FCD300C1889D /* HomeViewController.swift */,
+				3007C0702F595CFB00238AFC /* ProfileViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 				E13089C82A69FC1700C1889D /* CreateAccountViewController.swift in Sources */,
 				E13089C42A69F24800C1889D /* Font.swift in Sources */,
 				E13089A82A69EDB600C1889D /* AppDelegate.swift in Sources */,
+				3007C0712F595CFB00238AFC /* ProfileViewController.swift in Sources */,
 				E13089C62A69FBF400C1889D /* SignInViewController.swift in Sources */,
 				E13089CA2A69FCD300C1889D /* HomeViewController.swift in Sources */,
 				E13089AA2A69EDB600C1889D /* SceneDelegate.swift in Sources */,

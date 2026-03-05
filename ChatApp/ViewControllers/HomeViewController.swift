@@ -28,16 +28,17 @@ class HomeViewController: UIViewController {
             presentAlert(title: "Logout Failed", message: "Something went wrong with logout. Please try again later.")
         }
     }
-    @IBAction func logoutTapped(_ sender: Any) {
+    @IBAction func profileButtonTapped(_ sender: Any) {
         
-        let logoutAlert = UIAlertController(title: "Confirm Logout", message: "Are you sure you would like to logout of your account?", preferredStyle: .alert)
-        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { _ in
-            self.logout()
+        performSegue(withIdentifier: "ProfileSegue", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ProfileSegue" {
+            if let destinationVC = segue.destination as? ProfileViewController {
+                destinationVC.username = Auth.auth().currentUser?.displayName ?? "User"
+            }
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        logoutAlert.addAction(logoutAction)
-        logoutAlert.addAction(cancelAction)
-        present(logoutAlert, animated: true)
     }
     
     
